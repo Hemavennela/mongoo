@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MongoDB Frontend</title>
+</head>
+<body>
+  <h1>Messages</h1>
+  <ul id="messageList"></ul>
+
+  <form id="messageForm">
+    <input type="text" id="messageInput" placeholder="Write a message" required />
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    const API_URL = 'http://localhost:3000/messages';
+
+    async function fetchMessages() {
+      const res = await fetch(API_URL);
+      const messages = await res.json();
+      const list = document.getElementById('messageList');
+      list.innerHTML = '';
+      messages.forEach(msg => {
+        const li = document.createElement('li');
+        li.textContent = msg.text;
+        list.appendChild(li);
+      });
+    }
+
+    document.getElementById('messageForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('messageInput');
+      await fetch(API_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ text: input.value })
+      });
+      input.value = '';
+      fetchMessages();
+    });
+
+    fetchMessages();
+  </script>
+</body>
+</html>
