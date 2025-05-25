@@ -106,7 +106,7 @@ app.get('/', (req, res) => {
         transition: background-color 0.3s ease;
       }
       button:hover {
-        background-color: #e0d4f7;
+        background-color:rgb(234, 228, 247);
       }
     </style>
   </head>
